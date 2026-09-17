@@ -5,6 +5,7 @@ const songList = document.querySelector('#songList');
 const statusMessage = document.querySelector('#statusMessage');
 
 let songs = [];
+let rivalScores = new Map();
 
 // CSV의 따옴표, 쉼표, 줄바꿈, 이스케이프된 따옴표를 처리한다.
 function parseCsv(source) {
@@ -65,12 +66,41 @@ function pickThree(items) {
   return picked;
 }
 
+function scoreChip(score, label, className = '') {
+  const chip = document.createElement('span');
+  chip.className = `score-chip ${className}`.trim();
+  if (label) {
+    const caption = document.createElement('span');
+    caption.className = 'score-chip-label';
+    caption.textContent = label;
+    chip.append(caption);
+  }
+  const value = document.createElement('span');
+  value.textContent = score.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  chip.append(value);
+  return chip;
+}
+
 function renderSongs(picked) {
   const cards = songList.querySelectorAll('.song-card');
   picked.forEach((song, index) => {
     const title = cards[index].querySelector('.song-title');
     title.textContent = song;
     title.classList.remove('placeholder');
+
+    const values = cards[index].querySelector('.score-values');
+    const scores = rivalScores.get(song);
+    values.classList.remove('placeholder');
+    if (!scores) {
+      values.replaceChildren(scoreChip('0', '', 'empty'));
+    } else if (scores.second === '0') {
+      values.replaceChildren(scoreChip(scores.first, '첫 번째'));
+    } else {
+      values.replaceChildren(
+        scoreChip(scores.first, '첫 번째'),
+        scoreChip(scores.second, '두 번째', 'secondary'),
+      );
+    }
   });
 }
 
@@ -82,14 +112,29 @@ drawButton.addEventListener('click', () => {
 
 async function loadSongs() {
   try {
-    const response = await fetch('./song.csv');
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const rows = parseCsv((await response.text()).replace(/^\uFEFF/, ''));
-    const titleIndex = rows[0]?.indexOf('곡명') ?? -1;
-    if (titleIndex < 0) throw new Error('곡명 열을 찾을 수 없습니다.');
+    const [songResponse, rivalResponse] = await Promise.all([
+      fetch('./song.csv'),
+      fetch('./rival.csv'),
+    ]);
+    if (!songResponse.ok || !rivalResponse.ok) throw new Error('CSV 파일을 불러오지 못했습니다.');
 
-    songs = rows.slice(1).map((row) => row[titleIndex]?.trim()).filter(Boolean);
+    const songRows = parseCsv((await songResponse.text()).replace(/^\uFEFF/, ''));
+    const rivalRows = parseCsv((await rivalResponse.text()).replace(/^\uFEFF/, ''));
+    const songTitleIndex = songRows[0]?.indexOf('곡명') ?? -1;
+    const rivalTitleIndex = rivalRows[0]?.indexOf('곡명') ?? -1;
+    const firstIndex = rivalRows[0]?.indexOf('첫번째 점수') ?? -1;
+    const secondIndex = rivalRows[0]?.indexOf('두번째 점수') ?? -1;
+    if ([songTitleIndex, rivalTitleIndex, firstIndex, secondIndex].includes(-1)) {
+      throw new Error('CSV 열 이름을 확인해 주세요.');
+    }
+
+    songs = songRows.slice(1).map((row) => row[songTitleIndex]?.trim()).filter(Boolean);
     if (songs.length < 3) throw new Error('곡이 3개보다 적습니다.');
+
+    rivalScores = new Map(rivalRows.slice(1).filter((row) => row[rivalTitleIndex]?.trim()).map((row) => [
+      row[rivalTitleIndex].trim(),
+      { first: row[firstIndex]?.trim() || '0', second: row[secondIndex]?.trim() || '0' },
+    ]));
 
     songCount.textContent = `전체 ${songs.length}곡`;
     buttonLabel.textContent = '랜덤 3곡 뽑기';
@@ -97,10 +142,10 @@ async function loadSongs() {
     drawButton.disabled = false;
   } catch (error) {
     songCount.textContent = '불러오기 실패';
-    buttonLabel.textContent = '곡 목록을 확인해 주세요';
-    statusMessage.textContent = '곡 목록을 불러오지 못했어요. 페이지를 새로고침해 주세요.';
+    buttonLabel.textContent = 'CSV 파일을 확인해 주세요';
+    statusMessage.textContent = '곡이나 점수 목록을 불러오지 못했어요. 페이지를 새로고침해 주세요.';
     statusMessage.classList.add('error');
-    console.error('song.csv를 불러오지 못했습니다:', error);
+    console.error('CSV 파일을 불러오지 못했습니다:', error);
   }
 }
 

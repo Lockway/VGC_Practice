@@ -73,7 +73,7 @@ h2 { margin: 0; font-size: 24px; letter-spacing: -.04em; }
 .song-count { margin-bottom: 3px; color: #a9adbd; font-size: 12px; white-space: nowrap; }
 .song-list { display: grid; gap: 9px; margin: 0; padding: 0; list-style: none; }
 .song-card {
-  min-height: 78px;
+  min-height: 93px;
   gap: 17px;
   padding: 15px 18px;
   border: 1px solid #ffffff17;
@@ -84,9 +84,17 @@ h2 { margin: 0; font-size: 24px; letter-spacing: -.04em; }
 .song-card:nth-child(2) { border-left: 3px solid #aa8aff; }
 .song-card:nth-child(3) { border-left: 3px solid #6cdaff; }
 .song-number { flex: 0 0 27px; color: #a9aabb; font-size: 12px; font-weight: 800; }
-.song-title { flex: 1; min-width: 0; overflow-wrap: anywhere; font-size: 15px; font-weight: 700; line-height: 1.45; }
+.song-main { flex: 1; min-width: 0; }
+.song-title { display: block; overflow-wrap: anywhere; font-size: 15px; font-weight: 700; line-height: 1.45; }
 .song-title.placeholder { color: #777a8d; font-weight: 500; }
-.song-icon { color: #787b8e; font-size: 20px; }
+.score-line { display: flex; align-items: baseline; flex-wrap: wrap; gap: 5px 10px; margin-top: 10px; }
+.score-caption { color: #9296ab; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.score-values { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+.score-values.placeholder { color: #777a8d; font-size: 12px; }
+.score-chip { display: inline-flex; align-items: baseline; gap: 5px; padding: 4px 8px; border: 1px solid #c8ff5f30; border-radius: 6px; background: #c8ff5f12; color: #dfff9e; font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.score-chip.secondary { border-color: #aa8aff40; background: #aa8aff15; color: #d4c4ff; }
+.score-chip.empty { border-color: #ffffff26; background: #ffffff0b; color: #c5c7d2; }
+.score-chip-label { opacity: .72; font-size: 10px; font-weight: 600; }
 .draw-button {
   width: 100%;
   min-height: 62px;
@@ -118,7 +126,7 @@ footer { margin-top: auto; padding-top: 28px; color: #85889d; font-size: 12px; t
   .header-tag { max-width: 108px; line-height: 1.5; }
   .intro { padding-top: clamp(58px, 11vh, 90px); padding-bottom: 41px; }
   .selector { padding: 19px 16px 16px; border-radius: 20px; }
-  .song-card { min-height: 75px; padding: 13px; gap: 10px; }
+  .song-card { min-height: 91px; padding: 13px; gap: 10px; }
   .song-title { font-size: 14px; }
 }
 
