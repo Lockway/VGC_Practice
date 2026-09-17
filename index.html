@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0d1020" />
+    <meta name="description" content="곡 목록에서 중복 없이 랜덤으로 세 곡을 뽑아 보세요." />
+    <title>랜덤 3곡 셀렉터</title>
+    <link rel="stylesheet" href="./style.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="header">
+        <div class="brand"><span class="brand-mark" aria-hidden="true">✳</span> RANDOM SELECT</div>
+        <span class="header-tag">RHYTHM GAME PRACTICE</span>
+      </header>
+
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow"><span class="eyebrow-line"></span> TODAY'S CHALLENGE</p>
+        <h1 id="page-title">오늘은<br /><em>어떤 곡?</em></h1>
+        <p class="intro-copy">버튼 한 번으로 연습할 곡 3개를 뽑아보세요.</p>
+      </section>
+
+      <section class="selector" aria-labelledby="result-title">
+        <div class="selector-top">
+          <div>
+            <p class="section-kicker">YOUR SETLIST</p>
+            <h2 id="result-title">랜덤 3곡</h2>
+          </div>
+          <span class="song-count" id="songCount">곡 목록 불러오는 중</span>
+        </div>
+
+        <ol class="song-list" id="songList" aria-live="polite" aria-relevant="text">
+          <li class="song-card"><span class="song-number">01</span><span class="song-title placeholder">첫 번째 곡</span><span class="song-icon" aria-hidden="true">↗</span></li>
+          <li class="song-card"><span class="song-number">02</span><span class="song-title placeholder">두 번째 곡</span><span class="song-icon" aria-hidden="true">↗</span></li>
+          <li class="song-card"><span class="song-number">03</span><span class="song-title placeholder">세 번째 곡</span><span class="song-icon" aria-hidden="true">↗</span></li>
+        </ol>
+
+        <button class="draw-button" id="drawButton" type="button" disabled>
+          <span class="button-symbol" aria-hidden="true">✳</span>
+          <span id="buttonLabel">곡 목록 불러오는 중</span>
+          <span class="button-arrow" aria-hidden="true">↗</span>
+        </button>
+        <p class="hint" id="statusMessage" role="status">곡 목록을 준비하고 있어요.</p>
+      </section>
+
+      <footer>한 번에 3곡 · 같은 곡 중복 없이</footer>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,127 @@
+:root {
+  color-scheme: dark;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  background: #0d1020;
+  color: #f7f7fc;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 92% 12%, #422872 0, transparent 31%),
+    radial-gradient(circle at 2% 66%, #192d55 0, transparent 38%),
+    #0d1020;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .26;
+  background-image: linear-gradient(#ffffff0b 1px, transparent 1px), linear-gradient(90deg, #ffffff0b 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black, transparent 85%);
+}
+
+button { font: inherit; }
+
+.page {
+  position: relative;
+  width: min(100% - 40px, 720px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 28px 0 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header, .selector-top, .song-card, .draw-button {
+  display: flex;
+  align-items: center;
+}
+
+.header { justify-content: space-between; gap: 12px; }
+.brand { font-size: 14px; font-weight: 800; letter-spacing: .13em; white-space: nowrap; }
+.brand-mark { color: #c8ff5f; font-size: 26px; vertical-align: -3px; margin-right: 5px; }
+.header-tag { color: #9b9bae; font-size: 10px; font-weight: 700; letter-spacing: .15em; text-align: right; }
+
+.intro { padding: clamp(68px, 11vh, 110px) 2px 49px; }
+.eyebrow, .section-kicker { color: #c8ff5f; font-size: 11px; font-weight: 800; letter-spacing: .21em; }
+.eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 20px; }
+.eyebrow-line { width: 19px; height: 2px; background: currentColor; }
+h1 { margin: 0; font-size: clamp(48px, 11vw, 78px); font-weight: 900; line-height: 1.16; letter-spacing: -.07em; }
+h1 em { font-style: normal; color: #c8ff5f; }
+.intro-copy { margin: 21px 0 0; color: #acaec2; font-size: 15px; line-height: 1.6; }
+
+.selector {
+  padding: 24px;
+  border: 1px solid #ffffff1f;
+  border-radius: 24px;
+  background: linear-gradient(145deg, #24263aeb, #171b2deb);
+  box-shadow: 0 25px 70px #05071065, inset 0 1px #ffffff19;
+}
+.selector-top { justify-content: space-between; align-items: flex-end; gap: 10px; margin-bottom: 21px; }
+.section-kicker { margin: 0 0 5px; color: #a49db4; font-size: 10px; }
+h2 { margin: 0; font-size: 24px; letter-spacing: -.04em; }
+.song-count { margin-bottom: 3px; color: #a9adbd; font-size: 12px; white-space: nowrap; }
+.song-list { display: grid; gap: 9px; margin: 0; padding: 0; list-style: none; }
+.song-card {
+  min-height: 78px;
+  gap: 17px;
+  padding: 15px 18px;
+  border: 1px solid #ffffff17;
+  border-radius: 15px;
+  background: #ffffff09;
+}
+.song-card:nth-child(1) { border-left: 3px solid #c8ff5f; }
+.song-card:nth-child(2) { border-left: 3px solid #aa8aff; }
+.song-card:nth-child(3) { border-left: 3px solid #6cdaff; }
+.song-number { flex: 0 0 27px; color: #a9aabb; font-size: 12px; font-weight: 800; }
+.song-title { flex: 1; min-width: 0; overflow-wrap: anywhere; font-size: 15px; font-weight: 700; line-height: 1.45; }
+.song-title.placeholder { color: #777a8d; font-weight: 500; }
+.song-icon { color: #787b8e; font-size: 20px; }
+.draw-button {
+  width: 100%;
+  min-height: 62px;
+  margin-top: 20px;
+  padding: 0 20px;
+  gap: 12px;
+  border: 0;
+  border-radius: 14px;
+  background: #c8ff5f;
+  color: #17200b;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 16px;
+  text-align: left;
+  transition: transform .15s ease, background .15s ease;
+}
+.draw-button:hover:not(:disabled) { background: #d8ff91; transform: translateY(-2px); }
+.draw-button:active:not(:disabled) { transform: translateY(1px); }
+.draw-button:focus-visible { outline: 3px solid white; outline-offset: 3px; }
+.draw-button:disabled { opacity: .6; cursor: wait; }
+.button-symbol { font-size: 25px; line-height: 1; }
+.button-arrow { margin-left: auto; font-size: 23px; }
+.hint { min-height: 18px; margin: 12px 0 0; color: #9c9eaf; font-size: 12px; text-align: center; }
+.hint.error { color: #ffaaa9; }
+footer { margin-top: auto; padding-top: 28px; color: #85889d; font-size: 12px; text-align: center; }
+
+@media (max-width: 480px) {
+  .page { width: min(100% - 32px, 720px); padding-top: 19px; }
+  .header-tag { max-width: 108px; line-height: 1.5; }
+  .intro { padding-top: clamp(58px, 11vh, 90px); padding-bottom: 41px; }
+  .selector { padding: 19px 16px 16px; border-radius: 20px; }
+  .song-card { min-height: 75px; padding: 13px; gap: 10px; }
+  .song-title { font-size: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .draw-button { transition: none; }
+}
